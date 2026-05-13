@@ -69,7 +69,7 @@ export default function PinScreen({ onSuccess }: PinScreenProps) {
 
   if (pinMode === "loading") {
     return (
-      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center">
+      <div className="h-screen w-full bg-[var(--bg)] flex items-center justify-center overflow-hidden">
         <motion.div 
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ repeat: Infinity, duration: 2 }}
@@ -82,14 +82,14 @@ export default function PinScreen({ onSuccess }: PinScreenProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center p-4">
+    <div className="h-screen w-full bg-[var(--bg)] flex flex-col items-center justify-center p-8 md:p-16 overflow-hidden relative">
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--go-g)] via-transparent to-transparent opacity-30 pointer-events-none" />
       
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "circOut" }}
-        className="w-full max-w-md relative z-10"
+        className="w-full max-w-md relative z-10 my-12"
       >
         <Card className="p-8 md:p-12 border-[var(--bd)] bg-gradient-to-b from-[var(--c1)] to-[var(--bg)] shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--go)] to-transparent opacity-50" />
@@ -98,7 +98,6 @@ export default function PinScreen({ onSuccess }: PinScreenProps) {
             {/* Logo Section */}
             <div className="space-y-1">
               <h1 className="text-2xl font-black text-[var(--go)] tracking-[0.2em] font-mono">FAMILY WEALTH</h1>
-              <p className="text-[10px] text-[var(--mt)] font-bold tracking-[0.4em] uppercase opacity-70">Command Center v4.0</p>
             </div>
 
             {/* Icon/Status Section */}

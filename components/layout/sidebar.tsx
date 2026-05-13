@@ -84,9 +84,6 @@ export const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
         <h1 className="text-sm font-black tracking-[0.2em] text-[var(--go)] uppercase">
           Family Wealth
         </h1>
-        <p className="text-[9px] font-bold text-[var(--mt)] mt-1 tracking-widest uppercase">
-          Command Center v4.0
-        </p>
       </div>
       
       <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto custom-scrollbar">
