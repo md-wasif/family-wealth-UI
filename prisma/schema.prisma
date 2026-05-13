@@ -1,0 +1,126 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mongodb"
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  password  String
+  name      String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
+model Trust {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  ein         String
+  situs       String
+  established String
+  assets      Asset[]
+  notes       DemandNote[]
+  minutes     Minutes[]
+}
+
+model Asset {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  description  String
+  costBasis    Float
+  coa          String
+  dateAcquired String
+  noteHolder   String?
+  trust        Trust    @relation(fields: [trustId], references: [id])
+  trustId      String   @db.ObjectId
+}
+
+model DemandNote {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  assetName      String
+  originalAmount Float
+  currentBalance Float
+  dateIssued     String
+  trust          Trust    @relation(fields: [trustId], references: [id])
+  trustId        String   @db.ObjectId
+  draws          Draw[]
+}
+
+model Draw {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  amount       Float
+  date         String
+  purpose      String
+  demandNote   DemandNote @relation(fields: [demandNoteId], references: [id])
+  demandNoteId String     @db.ObjectId
+}
+
+model Minutes {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  date    String
+  type    String
+  status  String
+  content String
+  trust   Trust    @relation(fields: [trustId], references: [id])
+  trustId String   @db.ObjectId
+}
+
+model PMA {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  ein         String
+  type        String
+  established String
+  donations   Donation[]
+}
+
+model Donation {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  donor   String
+  amount  Float
+  date    String
+  bucket  String
+  type    String
+  certNo  String
+  pma     PMA      @relation(fields: [pmaId], references: [id])
+  pmaId   String   @db.ObjectId
+}
+
+model LLC {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  state        String
+  ein          String?
+  status       String   @default("Active")
+  totalCapital Float    @default(0)
+  members      Member[]
+}
+
+model Member {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  ownership    Float
+  contribution Float
+  role         String
+  llc          LLC    @relation(fields: [llcId], references: [id])
+  llcId        String @db.ObjectId
+}
+
+model ComplianceTask {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  entity   String
+  task     String
+  due      String
+  priority String
+  status   String   @default("pending")
+}
+
+model AuditLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  action    String
+  detail    String
+  timestamp DateTime @default(now())
+}
